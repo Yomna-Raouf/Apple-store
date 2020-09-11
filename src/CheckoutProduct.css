@@ -1,0 +1,100 @@
+.checkoutProduct {
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background: #deddda75;
+  border-radius: 10px;
+  padding: 20px 15px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.checkoutProduct__info {
+  padding-left: 20px;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  font-size: 20px;
+}
+
+.checkoutProduct__info > button {
+  background: #0071e3;
+  color: #fff;
+  border: 0;
+  outline: 0;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.5);
+  margin-top: 10px;
+  height: 40px;
+  border-radius: 50px;
+  cursor: pointer;
+  width: 160px;
+}
+
+.checkoutProduct__image {
+  object-fit: contain;
+  width: 180px;
+  height: 180px;
+}
+
+.checkoutProduct__rating {
+  display: flex;
+}
+
+.checkoutProduct__title {
+  font-size: 17px;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.checkoutProduct__amountControl {
+  display: flex;
+  align-self: center;
+  margin-left: auto;
+  display: flex;
+  align-self: center;
+  margin-left: auto;
+  justify-content: space-evenly;
+  align-items: center;
+  /* width: 15%; */
+  width: 40%;
+  font-size: 30px;
+}
+
+.checkoutProduct__amountControl button {
+  background: #0071e3;
+  color: #fff;
+  outline: 0;
+  border: 0;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 30px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-top: 10px;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.checkoutProduct__amountControl button:nth-child(5):hover,
+.checkoutProduct__info > button:hover {
+  transition: transform 0.2s linear;
+  transform: scale(1.1);
+}
+
+.checkoutProduct__amountControl button:nth-child(3):hover {
+  transition: transform 0.2s linear;
+  transform: scale(0.9);
+}
+
+.leave {
+  opacity: 1;
+}
+
+.leave .leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
