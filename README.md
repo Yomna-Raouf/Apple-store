@@ -1,8 +1,8 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-### Credit card info for test purposes:
+### Credit card info for test purposes "Don't use real card data!!!":
 card number: 4242 4242 4242 4242 <br />
-date: 24/24<br />
+MM/YY: 24/24<br />
 CVC: 42424
 
 ## Available Scripts
