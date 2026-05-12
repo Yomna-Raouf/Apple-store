@@ -1,73 +1,83 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Apple Store
+
+React storefront demo with Firebase auth, Firestore orders, and Stripe checkout.
 
 ### Credit card info for test purposes "Don't use real card data!!!":
+
 card number: 4242 4242 4242 4242 <br />
 MM/YY: 24/24<br />
 CVC: 42424
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Prerequisites
 
-### `npm start`
+- **Node.js 22.17.0** (recommended). The repo includes a `.nvmrc` file; from the project root run:
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```bash
+nvm use
+```
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+---
 
-### `npm test`
+## Available scripts
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+In the project directory:
 
-### `npm run build`
+| Command           | Description                                      |
+| ----------------- | ------------------------------------------------ |
+| `npm start`       | Start the Vite dev server (default: port 3000). |
+| `npm run dev`     | Same as `npm start`.                            |
+| `npm run build`   | Production build output to the `dist/` folder. |
+| `npm run preview` | Serve the production build locally for testing. |
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Open [http://localhost:3000](http://localhost:3000) while the dev server is running.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Migration to React 19 and Vite (summary)
 
-### `npm run eject`
+The app was migrated from **Create React App** (React 16 / `react-scripts`) to **Vite 6** and **React 19**, following current common practice (CRA is no longer maintained).
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Stack updates
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **React 19** and **react-dom 19** with **`createRoot`** in `src/index.jsx` (service worker removed from the entry flow).
+- **Vite 6** as the bundler and dev server instead of `react-scripts`.
+- **`"type": "module"`** in `package.json` for native ESM.
+- **React Router 6**: `Switch` → `Routes`, `Route` uses the `element` prop, **`useNavigate`** replaces **`useHistory`**.
+- **Firebase 11** using the **compat** API (`firebase/compat/app`, `firebase/compat/auth`, `firebase/compat/firestore`) so existing `auth` / `db.collection` style code continues to work.
+- **Stripe**: updated **`@stripe/react-stripe-js`** and **`@stripe/stripe-js`** for current APIs.
+- **axios** updated to the 1.x line.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Dependencies removed or replaced
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- **@material-ui/icons** → **`react-icons`** (only icon components were used).
+- **moment** → **`Intl` / `Date`** for order timestamps in `Order.jsx`.
+- **react-currency-format** → **`src/formatCurrency.js`** using **`Intl.NumberFormat`**.
+- Removed unused **react-flip-move** and old CRA-related testing packages from `package.json`.
 
-## Learn More
+### Behavior and bug fixes bundled with the migration
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- **Login route** is consistently **`/login`** (the router previously used `/Login` while links used `/login`).
+- **Header** sign-in link no longer produced an invalid `to={false}` when a user was logged in; sign-out uses **`preventDefault`** on the same link.
+- **Payment**: `clientSecret` is no longer initialized to a boolean; checkout uses **`async/await`** with **`confirmCardPayment`**, handles Stripe errors, and **`navigate('/orders', { replace: true })`** instead of `history.replace('./orders')`.
+- **App**: **`onAuthStateChanged`** is unsubscribed on unmount.
+- **Orders**: Firestore **`onSnapshot`** listener is unsubscribed when the user changes or the component unmounts.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### File layout notes
 
-### Code Splitting
+- Root **`index.html`** and **`vite.config.js`** drive the Vite setup.
+- Source files that contain JSX use the **`.jsx`** extension so Vite’s HTML pipeline parses them correctly.
+- **`.nvmrc`** pins Node **22.17.0** for `nvm use`.
+- **`.gitignore`** includes **`/dist`** for Vite production output.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+### Build note
 
-### Analyzing the Bundle Size
+`npm run build` may warn about a large JS chunk; much of that comes from Firebase. Optional later improvement: **Rollup `manualChunks`** to split vendor code.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+---
 
-### Making a Progressive Web App
+## Learn more
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+- [Vite documentation](https://vite.dev/)
+- [React documentation](https://react.dev/)
