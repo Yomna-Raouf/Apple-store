@@ -37,7 +37,7 @@ Open [http://localhost:3000](http://localhost:3000) while the dev server is runn
 
 ## Source layout and import alias
 
-The **`@/`** alias points at **`src/`** (see `vite.config.js` and `jsconfig.json` for IDE path hints). Prefer it for cross-folder imports, for example:
+The **`@/`** alias points at **`src/`** (see `vite.config.ts` and `tsconfig.json` for IDE and compiler resolution). Prefer it for cross-folder imports, for example:
 
 - `import { useStateValue } from '@/hooks/useStateValue'`
 - `import { auth } from '@/lib/firebase'`
@@ -45,9 +45,15 @@ The **`@/`** alias points at **`src/`** (see `vite.config.js` and `jsconfig.json
 
 Within a single feature folder you can still use relative imports (e.g. `./Subtotal` inside `features/cart`).
 
+### TypeScript
+
+- Source files use **`.ts`** / **`.tsx`**; `npm run build` runs **`tsc`** (typecheck, `noEmit`) then **`vite build`**.
+- Domain types live in **`src/types/models.ts`** (basket items, auth user shape, order payloads, store `AppState` / `AppAction`).
+- Global Vite typings and asset modules are declared in **`src/vite-env.d.ts`**.
+
 | Path | Role |
 |------|------|
-| `src/app/` | App shell: `App.jsx`, global app styles |
+| `src/app/` | App shell: `App.tsx`, global app styles |
 | `src/app/providers/` | Context providers (e.g. cart/user state) |
 | `src/components/` | Reusable UI used across features |
 | `src/features/` | Domain slices: `auth`, `cart`, `catalog`, `home`, `orders`, `payment` |
@@ -55,9 +61,10 @@ Within a single feature folder you can still use relative imports (e.g. `./Subto
 | `src/lib/` | External services (Firebase, HTTP API client) |
 | `src/store/` | Client store: context definition + reducer |
 | `src/utils/` | Pure utilities |
+| `src/types/` | Shared TypeScript types |
 | `src/assets/` | Images and static assets |
 | `src/styles/` | Global styles |
-| `src/index.jsx` | Vite entry |
+| `src/index.tsx` | Vite entry |
 
 ---
 
@@ -67,7 +74,7 @@ The app was migrated from **Create React App** (React 16 / `react-scripts`) to *
 
 ### Stack updates
 
-- **React 19** and **react-dom 19** with **`createRoot`** in `src/index.jsx` (service worker removed from the entry flow).
+- **React 19** and **react-dom 19** with **`createRoot`** in `src/index.tsx` (service worker removed from the entry flow).
 - **Vite 6** as the bundler and dev server instead of `react-scripts`.
 - **`"type": "module"`** in `package.json` for native ESM.
 - **React Router 6**: `Switch` → `Routes`, `Route` uses the `element` prop, **`useNavigate`** replaces **`useHistory`**.
@@ -78,8 +85,8 @@ The app was migrated from **Create React App** (React 16 / `react-scripts`) to *
 ### Dependencies removed or replaced
 
 - **@material-ui/icons** → **`react-icons`** (only icon components were used).
-- **moment** → **`Intl` / `Date`** for order timestamps in `Order.jsx`.
-- **react-currency-format** → **`src/formatCurrency.js`** using **`Intl.NumberFormat`**.
+- **moment** → **`Intl` / `Date`** for order timestamps in `Order.tsx`.
+- **react-currency-format** → **`src/utils/formatCurrency.ts`** using **`Intl.NumberFormat`**.
 - Removed unused **react-flip-move** and old CRA-related testing packages from `package.json`.
 
 ### Behavior and bug fixes bundled with the migration
@@ -92,14 +99,15 @@ The app was migrated from **Create React App** (React 16 / `react-scripts`) to *
 
 ### File layout notes
 
-- Root **`index.html`** and **`vite.config.js`** drive the Vite setup.
-- Source files that contain JSX use the **`.jsx`** extension so Vite’s HTML pipeline parses them correctly.
+- Root **`index.html`** and **`vite.config.ts`** drive the Vite setup.
+- **`tsconfig.json`** configures TypeScript; **`tsconfig.node.json`** covers the Vite config file.
+- Source files that contain JSX use the **`.tsx`** extension.
 - **`.nvmrc`** pins Node **22.17.0** for `nvm use`.
 - **`.gitignore`** includes **`/dist`** for Vite production output.
 
 ### Build note
 
-`npm run build` may warn about a large JS chunk; much of that comes from Firebase. Optional later improvement: **Rollup `manualChunks`** to split vendor code.
+`npm run build` runs **`tsc`** (typecheck) then **`vite build`**. It may warn about a large JS chunk; much of that comes from Firebase. Optional later improvement: **Rollup `manualChunks`** to split vendor code.
 
 ---
 
