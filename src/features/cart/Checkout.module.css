@@ -24,3 +24,13 @@
   margin-left: 50%;
   transform: translateX(-50%);
 }
+
+.checkout__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.checkout__listItem {
+  list-style: none;
+}

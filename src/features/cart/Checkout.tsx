@@ -2,51 +2,54 @@ import emptyState from '@/assets/emptystate.svg';
 import { useStateValue } from '@/hooks/useStateValue';
 import CheckoutProduct from './CheckoutProduct';
 import Subtotal from './Subtotal';
-import './Checkout.css';
+import styles from './Checkout.module.css';
 
 export default function Checkout() {
   const [{ basket, user }] = useStateValue();
 
   return (
-    <div className='checkout'>
-      <div className='checkout__left'>
+    <div className={styles.checkout}>
+      <div className={styles.checkout__left}>
         <img
-          className='chechout__ad'
+          className={styles.chechout__ad}
           src='https://images-na.ssl-images-amazon.com/images/G/02/UK_CCMP/TM/OCC_Amazon1._CB423492668_.JPG'
-          alt=''
+          alt='Promotional banner'
         />
-        <div>
+        <section aria-label='Shopping basket'>
           {basket.length ? (
             <>
-              <h2 className='checkout__title'>
-                {' '}
-                your shopping Basket, {user?.email}
+              <h2 id='basket-heading' className={styles.checkout__title}>
+                Your shopping basket{user?.email ? `, ${user.email}` : ''}
               </h2>
 
-              {basket.map((item, index) => (
-                <CheckoutProduct
-                  key={index}
-                  id={item.id}
-                  title={item.title}
-                  image={item.image}
-                  price={item.price}
-                  rating={item.rating}
-                />
-              ))}
+              <ul className={styles.checkout__list}>
+                {basket.map((item, index) => (
+                  <li key={`${item.id}-${index}`} className={styles.checkout__listItem}>
+                    <CheckoutProduct
+                      id={item.id}
+                      title={item.title}
+                      image={item.image}
+                      price={item.price}
+                      rating={item.rating}
+                    />
+                  </li>
+                ))}
+              </ul>
             </>
           ) : (
-            <div className='checkout__emptyState'>
-              <h2 className='checkout__title'>
-                your shopping Basket is empty, {user?.email}
+            <div className={styles.checkout__emptyState}>
+              <h2 id='empty-basket-heading' className={styles.checkout__title}>
+                Your shopping basket is empty
+                {user?.email ? `, ${user.email}` : ''}
               </h2>
-              <img src={emptyState} alt='empty Basket' />
+              <img src={emptyState} alt='Empty basket illustration' />
             </div>
           )}
-        </div>
+        </section>
       </div>
-      <div className='checkout__right'>
+      <aside aria-label='Order summary'>
         <Subtotal />
-      </div>
+      </aside>
     </div>
   );
 }

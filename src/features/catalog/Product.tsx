@@ -2,7 +2,7 @@ import StarRatings from 'react-star-ratings';
 
 import { useStateValue } from '@/hooks/useStateValue';
 import type { BasketItem } from '@/types/models';
-import './Product.css';
+import styles from './Product.module.css';
 
 type ProductProps = {
   id: string;
@@ -36,18 +36,20 @@ export default function Product({
   };
 
   return (
-    <div className='Product'>
-      <img src={image} alt='' />
-      <div className='Product__info'>
-        <p>{title}</p>
-        <p className='Product__price'>
-          <small>
-            <strong> $</strong>{' '}
-          </small>
+    <article className={styles.Product} aria-labelledby={`product-title-${id}`}>
+      <img src={image} alt={title} />
+      <div className={styles.Product__info}>
+        <h2 id={`product-title-${id}`} className={styles.Product__title}>
+          {title}
+        </h2>
+        <p className={styles.Product__price}>
+          <span className={styles.Product__currency} aria-hidden>
+            $
+          </span>
           <strong>{price}</strong>
         </p>
 
-        <div className='Product__rating'>
+        <div className={styles.Product__rating} aria-label={`Rating ${rating} out of 5`}>
           <StarRatings
             rating={rating}
             starRatedColor='#ffbc00'
@@ -60,8 +62,8 @@ export default function Product({
       </div>
 
       <button type='button' onClick={addToBasket}>
-        Add to Basket
+        Add to basket
       </button>
-    </div>
+    </article>
   );
 }

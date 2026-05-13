@@ -42,6 +42,10 @@
   display: flex;
 }
 
+:global(.star-container) {
+  padding-right: unset !important;
+}
+
 .checkoutProduct__title {
   font-size: 17px;
   font-weight: 800;

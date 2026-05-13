@@ -1,78 +1,108 @@
-import { useState, type FormEvent } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useFormStatus } from 'react-dom';
 
 import logo from '@/assets/images/apple.png';
 import { auth } from '@/lib/firebase';
-import './Login.css';
+import styles from './Login.module.css';
+
+function LoginPendingMessage() {
+  const { pending } = useFormStatus();
+  if (!pending) return null;
+  return (
+    <p role='status' className={styles.login__pending} aria-live='polite'>
+      Please wait…
+    </p>
+  );
+}
 
 export default function Login() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const signIn = (e: FormEvent) => {
-    e.preventDefault();
-
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then(() => {
-        navigate('/');
-      })
-      .catch((err: unknown) => alert(String(err)));
-  };
-
-  const register = (e: FormEvent) => {
-    e.preventDefault();
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((cred) => {
-        if (cred) {
-          navigate('/');
-        }
-      })
-      .catch((err: unknown) => alert(String(err)));
-  };
+  const [formError, setFormError] = useState<string | null>(null);
 
   return (
-    <div className='login'>
+    <div className={styles.login}>
       <Link to='/'>
-        <img className='login__logo' src={logo} alt='apple logo' />
+        <img className={styles.login__logo} src={logo} alt='Apple Store' />
       </Link>
-      <div className='login__container'>
-        <h1>Sign in</h1>
-        <form>
-          <h5>E-mail</h5>
+      <section className={styles.login__container} aria-labelledby='login-heading'>
+        <h1 id='login-heading'>Sign in</h1>
+        <form
+          action={async (formData) => {
+            setFormError(null);
+            const email = String(formData.get('email') ?? '').trim();
+            const password = String(formData.get('password') ?? '');
+            const intent = String(formData.get('intent') ?? 'signin');
+
+            if (!email || !password) {
+              setFormError('Enter email and password.');
+              return;
+            }
+
+            try {
+              if (intent === 'register') {
+                await auth.createUserWithEmailAndPassword(email, password);
+              } else {
+                await auth.signInWithEmailAndPassword(email, password);
+              }
+              navigate('/');
+            } catch (err: unknown) {
+              setFormError(
+                err instanceof Error ? err.message : String(err),
+              );
+            }
+          }}
+        >
+          <LoginPendingMessage />
+          <label htmlFor='login-email'>Email</label>
           <input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder='something@example.com'
+            id='login-email'
+            name='email'
             type='email'
+            autoComplete='email'
+            required
+            placeholder='something@example.com'
           />
 
-          <h5>Password</h5>
+          <label htmlFor='login-password'>Password</label>
           <input
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-            placeholder='Password'
+            id='login-password'
+            name='password'
             type='password'
+            autoComplete='current-password'
+            required
+            placeholder='Password'
           />
-          <button type='button' onClick={signIn} className='login__signInButton'>
+
+          {formError ? (
+            <p role='alert' className={styles.login__error}>
+              {formError}
+            </p>
+          ) : null}
+
+          <button
+            type='submit'
+            name='intent'
+            value='signin'
+            className={styles.login__signInButton}
+          >
             Sign in
           </button>
+          <button
+            type='submit'
+            name='intent'
+            value='register'
+            className={styles.login__registerButton}
+          >
+            Create your Apple account
+          </button>
         </form>
-        <p>
+        <p className={styles.login__legal}>
           By signing-in you agree to Apple's FAKE STORE Clone Conditions of Use
-          & Sale. Please see our Privacy Notice, our Cookies Notice and our
+          &amp; Sale. Please see our Privacy Notice, our Cookies Notice and our
           Interest-Based Ads Notice.
         </p>
-        <button
-          type='button'
-          onClick={register}
-          className='login__registerButton'
-        >
-          Create your Apple account
-        </button>
-      </div>
+      </section>
     </div>
   );
 }

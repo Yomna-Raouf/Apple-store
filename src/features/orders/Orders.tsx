@@ -4,7 +4,7 @@ import { useStateValue } from '@/hooks/useStateValue';
 import { db } from '@/lib/firebase';
 import type { OrderDocument, OrderListEntry } from '@/types/models';
 import Order from './Order';
-import './Orders.css';
+import styles from './Orders.module.css';
 
 export default function Orders() {
   const [{ user }] = useStateValue();
@@ -32,14 +32,16 @@ export default function Orders() {
   }, [user]);
 
   return (
-    <div className='orders'>
-      <h1>Your Orders</h1>
+    <div className={styles.orders}>
+      <h1>Your orders</h1>
 
-      <div className='orders__order'>
-        {orders?.map((order, index) => (
-          <Order key={order.id ?? index} order={order} />
+      <ol className={styles.orders__order}>
+        {orders.map((order, index) => (
+          <li key={order.id ?? index}>
+            <Order order={order} />
+          </li>
         ))}
-      </div>
+      </ol>
     </div>
   );
 }

@@ -1,0 +1,16 @@
+.orders {
+  padding: 20px 80px;
+}
+
+.orders > h1 {
+  margin: 30px 0;
+}
+
+.orders__order {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.orders__order > li {
+  margin-bottom: 1rem;
+}

@@ -1,10 +1,10 @@
 import CheckoutProduct from '@/features/cart/CheckoutProduct';
 import type { OrderListEntry } from '@/types/models';
 import { formatCurrency } from '@/utils/formatCurrency';
-import './Order.css';
+import styles from './Order.module.css';
 
 function formatOrderDate(unixSeconds: number): string {
-  if (!unixSeconds) return '';
+  if (!Number.isFinite(unixSeconds) || unixSeconds <= 0) return '';
   return new Date(unixSeconds * 1000).toLocaleString('en-US', {
     month: 'long',
     day: 'numeric',
@@ -19,27 +19,38 @@ type OrderProps = {
 };
 
 export default function Order({ order }: OrderProps) {
+  const headingId = `order-${order.id}-heading`;
+
   return (
-    <div className='order'>
-      <h2>Order</h2>
-      <p>{formatOrderDate(order.data.created)}</p>
-      <p className='order__id'>
-        <small>{order.id}</small>
+    <article className={styles.order} aria-labelledby={headingId}>
+      <h2 id={headingId}>Order</h2>
+      <p>
+        <time dateTime={new Date(order.data.created * 1000).toISOString()}>
+          {formatOrderDate(order.data.created)}
+        </time>
       </p>
-      {order.data.basket?.map((item, index) => (
-        <CheckoutProduct
-          key={index}
-          id={item.id}
-          title={item.title}
-          image={item.image}
-          price={item.price}
-          rating={item.rating}
-          hideButton
-        />
-      ))}
-      <h3 className='order__total'>
-        Order Total: {formatCurrency(order.data.amount / 100)}
-      </h3>
-    </div>
+      <p className={styles.order__id}>
+        <small>Order ID: {order.id}</small>
+      </p>
+      <ul className={styles.order__lines}>
+        {order.data.basket?.map((item, index) => (
+          <li key={`${item.id}-${index}`}>
+            <CheckoutProduct
+              id={item.id}
+              title={item.title}
+              image={item.image}
+              price={item.price}
+              rating={item.rating}
+              hideButton
+            />
+          </li>
+        ))}
+      </ul>
+      <p className={styles.order__total}>
+        <strong>
+          Order total: {formatCurrency(order.data.amount / 100)}
+        </strong>
+      </p>
+    </article>
   );
 }

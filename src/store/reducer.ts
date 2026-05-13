@@ -26,16 +26,13 @@ const reducer: Reducer<AppState, AppAction> = (state, action) => {
       const index = state.basket.findIndex(
         (basketItem) => basketItem.id === action.id,
       );
-      const newBasket = [...state.basket];
-
-      if (index >= 0) {
-        newBasket.splice(index, 1);
-      } else {
+      if (index < 0) {
         console.warn(
           `Can't remove product (id: ${action.id}) as it's not in the Basket`,
         );
+        return state;
       }
-      return { ...state, basket: newBasket };
+      return { ...state, basket: state.basket.toSpliced(index, 1) };
     }
     case 'SET_USER':
       return { ...state, user: action.user };

@@ -2,7 +2,7 @@ import StarRatings from 'react-star-ratings';
 import { MdAdd, MdRemove } from 'react-icons/md';
 
 import { useStateValue } from '@/hooks/useStateValue';
-import './CheckoutProduct.css';
+import styles from './CheckoutProduct.module.css';
 
 type CheckoutProductProps = {
   id: string;
@@ -31,16 +31,19 @@ export default function CheckoutProduct({
   };
 
   return (
-    <div className='checkoutProduct leave'>
-      <img className='checkoutProduct__image' alt={title} src={image} />
+    <div className={`${styles.checkoutProduct} ${styles.leave}`}>
+      <img className={styles.checkoutProduct__image} alt='' src={image} />
 
-      <div className='checkoutProduct__info'>
-        <p className='checkoutProduct__title'>{title}</p>
-        <p className='checkoutProduct__price'>
-          <small>$</small>
+      <div className={styles.checkoutProduct__info}>
+        <p className={styles.checkoutProduct__title}>{title}</p>
+        <p className={styles.checkoutProduct__price}>
+          <span aria-hidden>$</span>
           <strong>{price}</strong>
         </p>
-        <div className='checkoutProduct__rating'>
+        <div
+          className={styles.checkoutProduct__rating}
+          aria-label={`Rating ${rating} out of 5`}
+        >
           <StarRatings
             rating={rating}
             starRatedColor='#ffbc00'
@@ -52,21 +55,21 @@ export default function CheckoutProduct({
         </div>
         {!hideButton && (
           <button type='button' onClick={removeFromBasket}>
-            Remove From Basket{' '}
+            Remove from basket
           </button>
         )}
       </div>
       {!hideButton && (
-        <div className='checkoutProduct__amountControl'>
+        <div className={styles.checkoutProduct__amountControl}>
           <strong style={{ fontSize: '20px' }}>🚫 not working yet 🚫 </strong>
           <br />
-          <button type='button'>
+          <button type='button' aria-label='Decrease quantity'>
             <strong>
               <MdRemove aria-hidden />
             </strong>
           </button>
-          <p className='checkoutProduct__amount'>1</p>
-          <button type='button'>
+          <p className={styles.checkoutProduct__amount}>1</p>
+          <button type='button' aria-label='Increase quantity'>
             <strong>
               <MdAdd aria-hidden />
             </strong>

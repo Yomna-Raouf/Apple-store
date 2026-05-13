@@ -31,9 +31,12 @@
   margin-bottom: 20px;
 }
 
-.login__container > form > h5 {
+.login__container > form > label {
+  display: block;
   margin-bottom: 5px;
   color: #343434;
+  font-size: 0.85rem;
+  font-weight: 600;
 }
 
 .login__container > form > input {
@@ -46,7 +49,20 @@
   border: 0;
   padding: 5px;
 }
-.login__container > p {
+
+.login__pending {
+  margin: 0 0 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+.login__error {
+  margin: 0 0 10px;
+  font-size: 13px;
+  color: #b00020;
+}
+
+.login__legal {
   margin-top: 20px;
   font-size: 12px;
 }
@@ -76,6 +92,7 @@
   border-radius: 50px;
   cursor: pointer;
   font-size: 15px;
+  width: 100%;
 }
 
 .login__signInButton:hover,

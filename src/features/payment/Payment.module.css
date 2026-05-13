@@ -21,18 +21,49 @@
   flex: 0.2;
 }
 
+.payment__title h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
 .payment__address,
 .payment__items,
 .payment__details {
   flex: 0.8;
 }
 
+.payment__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.payment__item {
+  list-style: none;
+}
+
+.payment__details fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
 .payment__details > form {
   max-width: 400px;
 }
 
-.payment__details > h3 {
+.payment__orderTotal {
   padding-bottom: 20px;
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.payment__formError {
+  margin-top: 12px;
+  color: #b00020;
+  font-size: 0.9rem;
 }
 
 .payment__details > form > div > button {

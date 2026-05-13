@@ -26,6 +26,16 @@
   font-size: 18px;
 }
 
+.Product__title {
+  margin: 0;
+  font-size: inherit;
+  font-weight: 600;
+}
+
+.Product__currency {
+  font-weight: bold;
+}
+
 .Product__rating {
   display: flex;
   margin-right: auto;
@@ -34,7 +44,7 @@
   justify-content: center;
 }
 
-.star-container {
+:global(.star-container) {
   padding-right: unset !important;
 }
 
