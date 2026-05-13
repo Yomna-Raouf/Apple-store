@@ -1,8 +1,8 @@
 import './Subtotal.css';
 import { useNavigate } from 'react-router-dom';
-import { useStateValue } from './StateProvider';
-import { getBasketTotal } from './reducer';
-import { formatCurrency } from './formatCurrency';
+import { useStateValue } from '@/hooks/useStateValue';
+import { getBasketTotal } from '@/store/reducer';
+import { formatCurrency } from '@/utils/formatCurrency';
 
 function Subtotal() {
   const navigate = useNavigate();

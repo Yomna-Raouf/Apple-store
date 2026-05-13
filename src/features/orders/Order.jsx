@@ -1,6 +1,6 @@
 import './Order.css';
-import CheckoutProduct from './CheckoutProduct';
-import { formatCurrency } from './formatCurrency';
+import CheckoutProduct from '@/features/cart/CheckoutProduct';
+import { formatCurrency } from '@/utils/formatCurrency';
 
 function formatOrderDate(unixSeconds) {
   if (!unixSeconds) return '';

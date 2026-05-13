@@ -1,6 +1,6 @@
-import Product from './Product';
+import Product from '@/features/catalog/Product';
 import './Home.css';
-import hero from './mac2.png';
+import hero from '@/assets/images/mac2.png';
 
 function Home() {
   return (

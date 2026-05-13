@@ -1,6 +1,6 @@
 import './Product.css';
 import StarRatings from 'react-star-ratings';
-import { useStateValue } from './StateProvider';
+import { useStateValue } from '@/hooks/useStateValue';
 
 function Product({ id, title, image, price, rating }) {
   const [, dispatch] = useStateValue();

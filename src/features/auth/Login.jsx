@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
-import { auth } from './firebase';
-import logo from './apple.png';
+import { auth } from '@/lib/firebase';
+import logo from '@/assets/images/apple.png';
 
 function Login() {
   const navigate = useNavigate();

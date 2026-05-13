@@ -1,8 +1,8 @@
 import './Checkout.css';
-import { useStateValue } from './StateProvider';
+import { useStateValue } from '@/hooks/useStateValue';
 import Subtotal from './Subtotal';
 import CheckoutProduct from './CheckoutProduct';
-import emptyState from './emptystate.svg';
+import emptyState from '@/assets/emptystate.svg';
 
 function Checkout() {
   const [{ basket, user }] = useStateValue();

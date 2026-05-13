@@ -35,6 +35,32 @@ Open [http://localhost:3000](http://localhost:3000) while the dev server is runn
 
 ---
 
+## Source layout and import alias
+
+The **`@/`** alias points at **`src/`** (see `vite.config.js` and `jsconfig.json` for IDE path hints). Prefer it for cross-folder imports, for example:
+
+- `import { useStateValue } from '@/hooks/useStateValue'`
+- `import { auth } from '@/lib/firebase'`
+- `import { formatCurrency } from '@/utils/formatCurrency'`
+
+Within a single feature folder you can still use relative imports (e.g. `./Subtotal` inside `features/cart`).
+
+| Path | Role |
+|------|------|
+| `src/app/` | App shell: `App.jsx`, global app styles |
+| `src/app/providers/` | Context providers (e.g. cart/user state) |
+| `src/components/` | Reusable UI used across features |
+| `src/features/` | Domain slices: `auth`, `cart`, `catalog`, `home`, `orders`, `payment` |
+| `src/hooks/` | Shared hooks |
+| `src/lib/` | External services (Firebase, HTTP API client) |
+| `src/store/` | Client store: context definition + reducer |
+| `src/utils/` | Pure utilities |
+| `src/assets/` | Images and static assets |
+| `src/styles/` | Global styles |
+| `src/index.jsx` | Vite entry |
+
+---
+
 ## Migration to React 19 and Vite (summary)
 
 The app was migrated from **Create React App** (React 16 / `react-scripts`) to **Vite 6** and **React 19**, following current common practice (CRA is no longer maintained).

@@ -1,7 +1,7 @@
 import './CheckoutProduct.css';
 import StarRatings from 'react-star-ratings';
 import { MdAdd, MdRemove } from 'react-icons/md';
-import { useStateValue } from './StateProvider';
+import { useStateValue } from '@/hooks/useStateValue';
 
 function CheckoutProduct({ id, image, title, price, rating, hideButton }) {
   const [, dispatch] = useStateValue();

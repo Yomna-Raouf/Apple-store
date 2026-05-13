@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import './Header.css';
 import { MdSearch, MdShoppingBasket } from 'react-icons/md';
-import { useStateValue } from './StateProvider';
-import { auth } from './firebase';
-import logo from './apple.png';
+import { useStateValue } from '@/hooks/useStateValue';
+import { auth } from '@/lib/firebase';
+import logo from '@/assets/images/apple.png';
 
 function Header() {
-  const [{ basket, user }, dispatch] = useStateValue();
+  const [{ basket, user }] = useStateValue();
 
   const handleAuth = () => {
     if (user) {

@@ -1,9 +1,9 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import './index.css';
-import App from './App';
-import { StateProvider } from './StateProvider';
-import reducer, { initialState } from './reducer';
+import '@/styles/index.css';
+import App from '@/app/App';
+import { StateProvider } from '@/app/providers/StateProvider';
+import reducer, { initialState } from '@/store/reducer';
 
 const container = document.getElementById('root');
 const root = createRoot(container);

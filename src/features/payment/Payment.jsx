@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import './Payment.css';
-import CheckoutProduct from './CheckoutProduct';
-import { formatCurrency } from './formatCurrency';
-import { useStateValue } from './StateProvider';
-import { getBasketTotal } from './reducer';
+import CheckoutProduct from '@/features/cart/CheckoutProduct';
+import { formatCurrency } from '@/utils/formatCurrency';
+import { useStateValue } from '@/hooks/useStateValue';
+import { getBasketTotal } from '@/store/reducer';
 import { Link, useNavigate } from 'react-router-dom';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import axios from './axios';
-import { db } from './firebase';
+import api from '@/lib/api';
+import { db } from '@/lib/firebase';
 
 function Payment() {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ function Payment() {
         setClientSecret(null);
         return;
       }
-      const response = await axios({
+      const response = await api({
         method: 'post',
         url: `/payments/create?total=${total * 100}`,
       });
