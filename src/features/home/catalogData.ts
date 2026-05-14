@@ -1,0 +1,148 @@
+import type { ProductDisplayProps } from '@/features/catalog/Product';
+
+export const HOME_CATALOG: ProductDisplayProps[] = [
+  {
+    id: '5464651',
+    category: 'iPhone',
+    title: 'iPhone 11 Pro',
+    spec: '256 GB · Space Gray · A13 Bionic',
+    price: 999,
+    rating: 4.5,
+    reviewCount: 12840,
+    shipping: 'Free delivery · Pick up today',
+    image:
+      'https://tradelinestores.s3.amazonaws.com/media/product_images/f0c70287-25a6-4f75-9345-ce4274bb892e.png',
+  },
+  {
+    id: '547141',
+    category: 'iPhone',
+    title: 'iPhone 11',
+    spec: '128 GB · Black · Night mode & 4K video',
+    price: 699,
+    rating: 5,
+    reviewCount: 22100,
+    shipping: 'Free delivery',
+    image:
+      'https://tradelinestores.s3.amazonaws.com/media/product_images/69e95fc4-4cce-4653-a695-d1457cdeb377.png',
+  },
+  {
+    id: '68787187',
+    category: 'iPhone',
+    title: 'iPhone 11 Pro Max',
+    spec: '512 GB · Midnight Green · Super Retina XDR',
+    price: 1249,
+    rating: 4,
+    reviewCount: 9420,
+    shipping: 'Free delivery · In stock',
+    image:
+      'https://tradelinestores.s3.amazonaws.com/media/product_images/c143869e-8678-4e1e-a9ad-240c99c166f4.png',
+  },
+  {
+    id: '54662252',
+    category: 'Accessories',
+    title: 'Baseus 3-in-1 Smart Qi Wireless Charger',
+    spec: 'Charges iPhone, AirPods & Apple Watch · 15W',
+    price: 49,
+    rating: 4.5,
+    reviewCount: 3180,
+    shipping: 'Free delivery on orders $35+',
+    image:
+      'https://tradelinestores.s3.amazonaws.com/media/product_images/fcddf72f-a556-43da-9b6a-73b89c7dd72e.png',
+  },
+  {
+    id: '2545124',
+    category: 'Accessories',
+    title: 'Baseus Simple 2-in-1 Wireless Charger',
+    spec: '10W pad · LED status · compact footprint',
+    price: 24,
+    rating: 4.5,
+    reviewCount: 1890,
+    shipping: 'Free delivery on orders $35+',
+    image:
+      'https://tradelinestores.s3.amazonaws.com/media/product_images/4e390379-e0a2-413d-a452-ebe7f610366f.png',
+  },
+  {
+    id: '5454154',
+    category: 'Audio',
+    title: 'Bang & Olufsen Beoplay A9',
+    spec: 'Wi‑Fi & AirPlay 2 · Room-filling sound',
+    price: 2799,
+    rating: 4,
+    reviewCount: 640,
+    shipping: 'Scheduled delivery available',
+    image:
+      'https://tradelinestores.s3.amazonaws.com/media/product_images/d34c8772-673c-4fcb-82f7-f8bab7f306f6.png',
+  },
+  {
+    id: '415415-mbp',
+    category: 'Mac',
+    title: 'MacBook Pro 16-inch',
+    spec: '2.6 GHz 6-core · 512 GB SSD · AMD Radeon Pro',
+    price: 2399,
+    rating: 5,
+    reviewCount: 5640,
+    shipping: 'Free delivery · AppleCare+ optional',
+    image:
+      'https://szifon.com/wp-content/uploads/2019/11/Apple_16-inch-MacBook-Pro_111319.png',
+  },
+  {
+    id: '415415-airpods',
+    category: 'AirPods',
+    title: 'AirPods (3rd generation)',
+    spec: 'Personalized Spatial Audio · sweat & water resistant',
+    price: 179,
+    rating: 4.5,
+    reviewCount: 45200,
+    shipping: 'Free engraving · Pick up today',
+    image:
+      'https://staticshop.o2.co.uk/product/images/apple-airpods-sku-header.png?cb=03527ef494b0f14e27ae29a937aca48a',
+  },
+  {
+    id: '415415-watch',
+    category: 'Apple Watch',
+    title: 'Apple Watch Series 9',
+    spec: '45 mm · GPS · Always-On Retina display',
+    price: 429,
+    rating: 5,
+    reviewCount: 9870,
+    shipping: 'Free delivery · Trade-in eligible',
+    image:
+      'https://pisces.bbystatic.com/image2/BestBuy_US/Gallery/appleWatch-BrandStore-Fall2018_v2-42205.png',
+  },
+  {
+    id: '51541515',
+    category: 'Mac',
+    title: 'MacBook Air',
+    spec: '13-inch · 256 GB · all-day battery life',
+    price: 1099,
+    rating: 4.5,
+    reviewCount: 13120,
+    shipping: 'Free delivery · Student pricing in store',
+    image:
+      'https://www.humac.dk/sites/default/files/product-images/2019-07/MBA-PFOpen-SpcGry-WW-EN.tif-PRINT.png',
+  },
+  {
+    id: '516515616-ipad',
+    category: 'iPad',
+    title: 'iPad Pro 11-inch',
+    spec: 'Wi‑Fi 256 GB · Liquid Retina · M-series chip class',
+    price: 899,
+    rating: 4.5,
+    reviewCount: 7650,
+    shipping: 'Free delivery · Apple Pencil sold separately',
+    image:
+      'https://support.apple.com/library/APPLE/APPLECARE_ALLGEOS/SP784/ipad-pro-11-2018.png',
+  },
+  {
+    id: '516515616-imac',
+    category: 'Mac',
+    title: 'iMac 27-inch',
+    spec: '5K Retina display · fast SSD · immersive desktop',
+    price: 1799,
+    rating: 5,
+    reviewCount: 2890,
+    shipping: 'White-glove delivery available',
+    image:
+      'https://media.idownloadblog.com/wp-content/uploads/2017/06/macOS-High-Sierra-Wallpaper-Hero-with-iMac-Pro-iDownloadBlog-splash.png',
+  },
+];

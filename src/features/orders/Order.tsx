@@ -1,6 +1,7 @@
 import CheckoutProduct from '@/features/cart/CheckoutProduct';
 import type { OrderListEntry } from '@/types/models';
 import { formatCurrency } from '@/utils/formatCurrency';
+import { normalizeBasketItem } from '@/utils/normalizeBasketItem';
 import styles from './Order.module.css';
 
 function formatOrderDate(unixSeconds: number): string {
@@ -33,18 +34,22 @@ export default function Order({ order }: OrderProps) {
         <small>Order ID: {order.id}</small>
       </p>
       <ul className={styles.order__lines}>
-        {order.data.basket?.map((item, index) => (
-          <li key={`${item.id}-${index}`}>
-            <CheckoutProduct
-              id={item.id}
-              title={item.title}
-              image={item.image}
-              price={item.price}
-              rating={item.rating}
-              hideButton
-            />
-          </li>
-        ))}
+        {order.data.basket?.map((item, index) => {
+          const row = normalizeBasketItem(item, index);
+          return (
+            <li key={row.lineId}>
+              <CheckoutProduct
+                lineId={row.lineId}
+                quantity={row.quantity}
+                title={row.title}
+                image={row.image}
+                price={row.price}
+                rating={row.rating}
+                hideButton
+              />
+            </li>
+          );
+        })}
       </ul>
       <p className={styles.order__total}>
         <strong>

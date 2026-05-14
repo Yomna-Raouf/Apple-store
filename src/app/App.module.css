@@ -1,7 +1,14 @@
-* {
-  margin: 0;
-}
-
 .App__main {
   outline: none;
+  min-height: calc(100vh - var(--header-height));
+  padding: var(--space-6) var(--page-padding-x) var(--space-12);
+}
+
+.App__main a:not([class]) {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.App__main a:not([class]):hover {
+  text-decoration: underline;
 }

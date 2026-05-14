@@ -1,11 +1,14 @@
 import StarRatings from 'react-star-ratings';
 import { MdAdd, MdRemove } from 'react-icons/md';
 
+import SafeImage from '@/components/SafeImage/SafeImage';
 import { useStateValue } from '@/hooks/useStateValue';
+import { formatCurrency } from '@/utils/formatCurrency';
 import styles from './CheckoutProduct.module.css';
 
 type CheckoutProductProps = {
-  id: string;
+  lineId: string;
+  quantity: number;
   title: string;
   image: string;
   price: number;
@@ -14,7 +17,8 @@ type CheckoutProductProps = {
 };
 
 export default function CheckoutProduct({
-  id,
+  lineId,
+  quantity,
   image,
   title,
   price,
@@ -23,59 +27,103 @@ export default function CheckoutProduct({
 }: CheckoutProductProps) {
   const [, dispatch] = useStateValue();
 
-  const removeFromBasket = () => {
-    dispatch({
-      type: 'REMOVE_FROM_BASKET',
-      id,
-    });
+  const lineTotal = price * quantity;
+
+  const removeLine = () => {
+    dispatch({ type: 'REMOVE_FROM_BASKET', lineId });
   };
 
-  return (
-    <div className={`${styles.checkoutProduct} ${styles.leave}`}>
-      <img className={styles.checkoutProduct__image} alt='' src={image} />
+  const increment = () => {
+    dispatch({ type: 'ADJUST_BASKET_QTY', lineId, delta: 1 });
+  };
 
-      <div className={styles.checkoutProduct__info}>
-        <p className={styles.checkoutProduct__title}>{title}</p>
-        <p className={styles.checkoutProduct__price}>
-          <span aria-hidden>$</span>
-          <strong>{price}</strong>
-        </p>
+  const decrement = () => {
+    dispatch({ type: 'ADJUST_BASKET_QTY', lineId, delta: -1 });
+  };
+
+  const subline =
+    hideButton && quantity > 1
+      ? `Qty ${quantity}`
+      : !hideButton && quantity > 1
+        ? `${quantity} × ${formatCurrency(price)}`
+        : !hideButton
+          ? 'each'
+          : null;
+
+  return (
+    <article className={styles.checkoutProduct}>
+      <div className={styles.checkoutProduct__thumb}>
+        <SafeImage
+          key={image}
+          src={image}
+          alt=''
+          className={styles.checkoutProduct__thumbSlot}
+          fallbackClassName={styles.checkoutProduct__thumbSlotFallback}
+        />
+      </div>
+
+      <div className={styles.checkoutProduct__main}>
+        <h3 className={styles.checkoutProduct__title}>{title}</h3>
         <div
           className={styles.checkoutProduct__rating}
           aria-label={`Rating ${rating} out of 5`}
         >
           <StarRatings
             rating={rating}
-            starRatedColor='#ffbc00'
+            starRatedColor='#e6a200'
+            starEmptyColor='#939399'
             numberOfStars={5}
-            name={`checkout-rating-${id}`}
-            starDimension='20px'
-            starSpacing='15px'
+            name={`checkout-rating-${lineId}`}
+            starDimension='16px'
+            starSpacing='2px'
           />
         </div>
-        {!hideButton && (
-          <button type='button' onClick={removeFromBasket}>
-            Remove from basket
-          </button>
-        )}
+
+        {!hideButton ? (
+          <div className={styles.checkoutProduct__actions}>
+            <button
+              type='button'
+              className={styles.checkoutProduct__remove}
+              onClick={removeLine}
+            >
+              Remove
+            </button>
+            <div
+              className={styles.checkoutProduct__qty}
+              aria-label={`Quantity for ${title}`}
+            >
+              <button
+                type='button'
+                className={styles.checkoutProduct__qtyBtn}
+                onClick={decrement}
+                aria-label={`Decrease quantity of ${title}`}
+              >
+                <MdRemove aria-hidden />
+              </button>
+              <span className={styles.checkoutProduct__qtyVal} aria-live='polite'>
+                {quantity}
+              </span>
+              <button
+                type='button'
+                className={styles.checkoutProduct__qtyBtn}
+                onClick={increment}
+                aria-label={`Increase quantity of ${title}`}
+              >
+                <MdAdd aria-hidden />
+              </button>
+            </div>
+          </div>
+        ) : null}
       </div>
-      {!hideButton && (
-        <div className={styles.checkoutProduct__amountControl}>
-          <strong style={{ fontSize: '20px' }}>🚫 not working yet 🚫 </strong>
-          <br />
-          <button type='button' aria-label='Decrease quantity'>
-            <strong>
-              <MdRemove aria-hidden />
-            </strong>
-          </button>
-          <p className={styles.checkoutProduct__amount}>1</p>
-          <button type='button' aria-label='Increase quantity'>
-            <strong>
-              <MdAdd aria-hidden />
-            </strong>
-          </button>
-        </div>
-      )}
-    </div>
+
+      <div className={styles.checkoutProduct__rail}>
+        <p className={styles.checkoutProduct__price}>
+          {formatCurrency(lineTotal)}
+        </p>
+        {subline ? (
+          <p className={styles.checkoutProduct__subline}>{subline}</p>
+        ) : null}
+      </div>
+    </article>
   );
 }

@@ -1,9 +1,14 @@
 export type BasketItem = {
+  /** Stable id for this basket row (add / +/- / remove target). */
+  lineId: string;
+  /** Catalog product id (same product merges quantity on add). */
   id: string;
   title: string;
   image: string;
+  /** Unit price in dollars (not cents). */
   price: number;
   rating: number;
+  quantity: number;
 };
 
 /**
@@ -33,7 +38,8 @@ export type AppState = {
 };
 
 export type AppAction =
-  | { type: 'ADD_TO_BASKET'; item: BasketItem }
+  | { type: 'ADD_TO_BASKET'; item: Omit<BasketItem, 'lineId' | 'quantity'> }
   | { type: 'EMPTY_BASKET' }
-  | { type: 'REMOVE_FROM_BASKET'; id: string }
+  | { type: 'REMOVE_FROM_BASKET'; lineId: string }
+  | { type: 'ADJUST_BASKET_QTY'; lineId: string; delta: number }
   | { type: 'SET_USER'; user: AuthUser };

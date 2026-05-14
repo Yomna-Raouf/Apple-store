@@ -1,16 +1,25 @@
 .orders {
-  padding: 20px 80px;
+  width: 100%;
+  max-width: var(--layout-max);
+  margin: 0 auto;
+  padding: var(--space-10) 0 var(--space-12);
 }
 
 .orders > h1 {
-  margin: 30px 0;
+  margin: 0 0 var(--space-6);
+  font-size: var(--text-display);
+  font-weight: 600;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text);
 }
 
 .orders__order {
   margin: 0;
-  padding-left: 1.5rem;
+  padding-left: 0;
+  list-style: none;
 }
 
 .orders__order > li {
-  margin-bottom: 1rem;
+  margin-bottom: var(--space-4);
 }

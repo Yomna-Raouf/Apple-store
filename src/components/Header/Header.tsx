@@ -4,6 +4,7 @@ import { MdSearch, MdShoppingBasket } from 'react-icons/md';
 import logo from '@/assets/images/apple.png';
 import { useStateValue } from '@/hooks/useStateValue';
 import { auth } from '@/lib/firebase';
+import { getBasketItemCount } from '@/store/reducer';
 import styles from './Header.module.css';
 
 export default function Header() {
@@ -31,14 +32,16 @@ export default function Header() {
           <label htmlFor='header-search' className='visually-hidden'>
             Search products
           </label>
-          <input
-            id='header-search'
-            placeholder='🚫 not working yet 🚫'
-            type='search'
-            className={styles.Header__searchInput}
-            autoComplete='off'
-          />
-          <MdSearch className={styles.Header__searchIcon} aria-hidden />
+          <div className={styles.Header__searchShell}>
+            <MdSearch className={styles.Header__searchIcon} aria-hidden />
+            <input
+              id='header-search'
+              placeholder='Search the store'
+              type='search'
+              className={styles.Header__searchInput}
+              autoComplete='off'
+            />
+          </div>
         </form>
 
         <ul className={styles.Header__nav}>
@@ -75,7 +78,7 @@ export default function Header() {
             <Link to='/' className={styles.Header__link}>
               <span className={styles.Header__option}>
                 <span className={styles.Header__optionLineOne}>Your</span>
-                <span className={styles.Header__optionLineTwo}>Prime</span>
+                <span className={styles.Header__optionLineTwo}>Store</span>
               </span>
             </Link>
           </li>
@@ -86,7 +89,7 @@ export default function Header() {
                 <span
                   className={`${styles.Header__optionLineTwo} ${styles.header__basketCount}`}
                 >
-                  {basket?.length ?? 0}
+                  {basket ? getBasketItemCount(basket) : 0}
                 </span>
               </span>
             </Link>

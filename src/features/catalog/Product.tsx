@@ -1,15 +1,19 @@
-import StarRatings from 'react-star-ratings';
-
+import SafeImage from '@/components/SafeImage/SafeImage';
 import { useStateValue } from '@/hooks/useStateValue';
 import type { BasketItem } from '@/types/models';
+import { formatCurrency } from '@/utils/formatCurrency';
 import styles from './Product.module.css';
 
-type ProductProps = {
+export type ProductDisplayProps = {
   id: string;
   title: string;
   image: string;
   price: number;
   rating: number;
+  category: string;
+  spec: string;
+  shipping: string;
+  reviewCount: number;
 };
 
 export default function Product({
@@ -18,11 +22,14 @@ export default function Product({
   image,
   price,
   rating,
-}: ProductProps) {
+  category,
+  spec,
+  shipping,
+}: ProductDisplayProps) {
   const [, dispatch] = useStateValue();
 
   const addToBasket = () => {
-    const item: BasketItem = {
+    const item: Omit<BasketItem, 'lineId' | 'quantity'> = {
       id,
       title,
       image,
@@ -37,33 +44,40 @@ export default function Product({
 
   return (
     <article className={styles.Product} aria-labelledby={`product-title-${id}`}>
-      <img src={image} alt={title} />
-      <div className={styles.Product__info}>
-        <h2 id={`product-title-${id}`} className={styles.Product__title}>
-          {title}
-        </h2>
-        <p className={styles.Product__price}>
-          <span className={styles.Product__currency} aria-hidden>
-            $
-          </span>
-          <strong>{price}</strong>
-        </p>
-
-        <div className={styles.Product__rating} aria-label={`Rating ${rating} out of 5`}>
-          <StarRatings
-            rating={rating}
-            starRatedColor='#ffbc00'
-            numberOfStars={5}
-            name={`product-rating-${id}`}
-            starDimension='20px'
-            starSpacing='15px'
-          />
-        </div>
+      <div className={styles.Product__media}>
+        <SafeImage
+          key={image}
+          src={image}
+          alt={title}
+          className={styles.productMediaImg}
+          fallbackClassName={styles.productMediaImgFallback}
+        />
       </div>
 
-      <button type='button' onClick={addToBasket}>
-        Add to basket
-      </button>
+      <div className={styles.Product__main}>
+        <div className={styles.Product__top}>
+          <p className={styles.Product__category}>{category}</p>
+
+          <h2 id={`product-title-${id}`} className={styles.Product__title}>
+            {title}
+          </h2>
+          {spec ? <p className={styles.Product__spec}>{spec}</p> : null}
+
+          <div className={styles.Product__topSpacer} aria-hidden />
+        </div>
+
+        <div className={styles.Product__commerce}>
+          <p className={styles.Product__price}>{formatCurrency(price)}</p>
+          <div className={styles.Product__shippingSlot}>
+            {shipping ? (
+              <p className={styles.Product__shipping}>{shipping}</p>
+            ) : null}
+          </div>
+          <button type='button' onClick={addToBasket}>
+            Add to bag
+          </button>
+        </div>
+      </div>
     </article>
   );
 }

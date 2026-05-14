@@ -7,7 +7,7 @@ import CheckoutProduct from "@/features/cart/CheckoutProduct";
 import { useStateValue } from "@/hooks/useStateValue";
 import api from "@/lib/api";
 import { db } from "@/lib/firebase";
-import { getBasketTotal } from "@/store/reducer";
+import { getBasketItemCount, getBasketTotal } from "@/store/reducer";
 import { formatCurrency } from "@/utils/formatCurrency";
 import styles from "./Payment.module.css";
 
@@ -100,7 +100,8 @@ export default function Payment() {
   return (
     <div className={styles.payment__container}>
       <h1>
-        Checkout (<Link to="/checkout">{basket?.length ?? 0} items</Link>)
+        Checkout (
+        <Link to='/checkout'>{getBasketItemCount(basket)} items</Link>)
       </h1>
 
       <section
@@ -125,10 +126,11 @@ export default function Payment() {
           <h2 id="payment-items-heading">Review items and delivery</h2>
         </div>
         <ul className={styles.payment__items}>
-          {basket.map((item, index) => (
-            <li key={`${item.id}-${index}`} className={styles.payment__item}>
+          {basket.map((item) => (
+            <li key={item.lineId} className={styles.payment__item}>
               <CheckoutProduct
-                id={item.id}
+                lineId={item.lineId}
+                quantity={item.quantity}
                 title={item.title}
                 image={item.image}
                 price={item.price}
@@ -150,10 +152,12 @@ export default function Payment() {
           <form onSubmit={handleSubmit}>
             <fieldset>
               <legend className="visually-hidden">Card payment</legend>
-              <CardElement onChange={handleChange} />
+              <div className={styles.payment__cardShell}>
+                <CardElement onChange={handleChange} />
+              </div>
             </fieldset>
-              <div>
-                <p className={styles.payment__orderTotal}>
+            <div>
+              <p className={styles.payment__orderTotal}>
                 <strong>
                   Order Total: {formatCurrency(getBasketTotal(basket))}
                 </strong>

@@ -23,10 +23,11 @@ export default function Checkout() {
               </h2>
 
               <ul className={styles.checkout__list}>
-                {basket.map((item, index) => (
-                  <li key={`${item.id}-${index}`} className={styles.checkout__listItem}>
+                {basket.map((item) => (
+                  <li key={item.lineId} className={styles.checkout__listItem}>
                     <CheckoutProduct
-                      id={item.id}
+                      lineId={item.lineId}
+                      quantity={item.quantity}
                       title={item.title}
                       image={item.image}
                       price={item.price}
@@ -47,7 +48,7 @@ export default function Checkout() {
           )}
         </section>
       </div>
-      <aside aria-label='Order summary'>
+      <aside className={styles.checkout__aside} aria-label='Order summary'>
         <Subtotal />
       </aside>
     </div>

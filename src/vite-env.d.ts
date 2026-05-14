@@ -16,6 +16,7 @@ declare module 'react-star-ratings' {
   export type StarRatingsProps = {
     rating: number;
     starRatedColor?: string;
+    starEmptyColor?: string;
     numberOfStars?: number;
     name?: string;
     starDimension?: string;
